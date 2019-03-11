@@ -1,0 +1,166 @@
+<!--
+  Generated template for the AddEvaluationsToAsignaturaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar no-border-top color="white">
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title color="black">Editar Evaluaciones</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="main-area">
+  <ion-grid>
+    <ion-row>
+
+      <!-- Zona izquierda -->
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6>
+        <!-- Evaluaciones -->
+        <ion-title>Evaluaciones</ion-title>
+
+        <ion-card *ngIf="evaluations.length === 0" style="height: 300px" text-center>
+          <ion-row style="height: 100%">
+            <ion-col align-self-center>
+              <ion-icon class="subjecticon" name="list" color="blue-grey"></ion-icon>
+              <span>
+                <ion-icon class="alerticon" name="alert" color="blue-grey"></ion-icon>
+              </span>
+              <h2>No se ha encontrado ninguna evaluación.</h2>
+              <p>Cree una nueva evaluación para esta asignatura.</p>
+            </ion-col>
+            <ion-fab bottom right #fab1>
+              <button ion-fab mini>
+                <ion-icon name="color-wand"></ion-icon>
+              </button>
+              <ion-fab-list side="top">
+                <button ion-fab (click)="importEvaluation(fab1)" arrow tooltip="Importar desde GAUSS" positionH="left">
+                  <ion-icon name="cloud-upload"></ion-icon>
+                </button>
+                <button ion-fab (click)="createEvaluation(fab1)" arrow tooltip="Crear nueva" positionH="left">
+                  <ion-icon name="add"></ion-icon>
+                </button>
+              </ion-fab-list>
+            </ion-fab>
+          </ion-row>
+        </ion-card>
+
+        <ion-list>
+          <ion-card *ngFor="let evaluation of evaluations">
+            <ion-item>
+              <ion-row align-items-center="">
+                <ion-col col-12 col-sm-7 col-md-7 col-lg-7>
+                  <h2>{{ evaluation.name }}</h2>
+                  <p *ngIf="evaluation.formula === '' || evaluation.formula === null" style="color: #f30d0d">¡Necesario
+                    editar fórmula!</p>
+                  <p *ngIf="evaluation.formula !== '' && evaluation.formula !== null">Fórmula establecida.</p>
+
+                </ion-col>
+
+                <ion-col col-12 col-sm-4 col-md-4 col-lg-4 align-self-end text-center="">
+                  <button ion-button outline icon-only color="danger" (click)="deleteEvaluationOfSubject(evaluation)"
+                          arrow tooltip="Eliminar" positionV="top">
+                    <ion-icon name="trash"></ion-icon>
+                  </button>
+                  <button ion-button outline icon-only (click)="editFormula(evaluation)"
+                          arrow tooltip="Editar fórmula" positionV="top">
+                    <ion-icon name="flask"></ion-icon>
+                  </button>
+                  <button ion-button outline icon-only (click)="getAssingmentsOfEvaluation(evaluation)"
+                          arrow tooltip="Editar actividades" positionV="top">
+                    <ion-icon name="create"></ion-icon>
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-card>
+
+          <ion-col col-5 col-sm-5 col-md-5 col-lg-5 text-center align-self-center>
+            <button ion-button text-right color="create" icon-right (click)="createEvaluation(null)">
+              Nuevo
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-col>
+
+        </ion-list>
+
+
+      </ion-col>
+
+      <!-- Zona derecha -->
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6>
+
+        <!-- Actividades -->
+        <ion-title *ngIf="selectedEvaluation !== null">Actividades de {{selectedEvaluation.name}}</ion-title>
+
+        <ion-card *ngIf="selectedEvaluation !== null && assingments.length === 0" style="height: 300px" text-center>
+          <ion-row style="height: 100%">
+            <ion-col align-self-center>
+              <ion-icon class="subjecticon" name="list" color="blue-grey"></ion-icon>
+              <span>
+                <ion-icon class="alerticon" name="alert" color="blue-grey"></ion-icon>
+              </span>
+              <h2>No se ha encontrado ninguna actividad.</h2>
+              <p>Cree una nueva evaluación para esta asignatura.</p>
+            </ion-col>
+            <ion-fab bottom right #fab2>
+              <button ion-fab mini
+                      (click)="createAssingmentForEvaluation(selectedEvaluation)"
+                      arrow tooltip="Crear actividad" positionH="left">
+                <ion-icon name="document"></ion-icon>
+              </button>
+            </ion-fab>
+          </ion-row>
+        </ion-card>
+
+        <ion-list *ngIf="selectedEvaluation !== null && assingments.length !== 0">
+          <ion-card *ngFor="let assingment of assingments">
+            <ion-item>
+              <ion-row align-items-center="">
+                <ion-col col-12 col-sm-7 col-md-7 col-lg-7>
+                  <h2>{{ assingment.name }}</h2>
+                  <p> Nota mínima: {{ assingment.minimumGrade }} </p>
+                  <p> Peso: {{ assingment.weight }} / 100</p>
+                  <p *ngIf="assingment.numberOfParticipants === 1 "> Tipo: Individual</p>
+                  <p *ngIf="assingment.numberOfParticipants !== 1 "> Tipo: Grupo ({{ assingment.numberOfParticipants }})</p>
+
+
+                </ion-col>
+
+                <ion-col col-12 col-sm-4 col-md-4 col-lg-4 align-self-end text-center="">
+                  <button ion-button outline icon-only color="danger" (click)="deleteAssingment(assingment)"
+                          arrow tooltip="Eliminar" positionV="top">
+                    <ion-icon name="trash"></ion-icon>
+                  </button>
+
+                  <button ion-button outline icon-only (click)="editAssingment(assingment)"
+                          arrow tooltip="Editar actividad" positionV="top">
+                    <ion-icon name="create"></ion-icon>
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-card>
+
+          <ion-col col-5 col-sm-5 col-md-5 col-lg-5 text-center align-self-center>
+            <button ion-button text-right color="create" icon-right (click)="createAssingmentForEvaluation(selectedEvaluation)">
+              Nuevo
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-col>
+
+        </ion-list>
+
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

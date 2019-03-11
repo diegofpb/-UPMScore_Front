@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-navbar no-border-top color="white">
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title color="Black">Configuración de {{subjectForm.value.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="main-area">
+  <ion-grid>
+    <ion-row>
+      <!-- Buscador de asignaguras -->
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6>
+        <ion-title>Buscador de asignaturas</ion-title>
+        <ion-card>
+          <ion-list>
+            <ion-item>
+              <ion-label>Centro</ion-label>
+              <ion-select [(ngModel)]="selectedSchool" (ionChange)="schoolSelectedEventOption()"
+                          [disabled]="schools.length === 0">
+                <ion-option *ngFor="let school of schools" [value]="school.codigo">{{school.nombre}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+
+        <ion-card *ngIf="plans.length > 0">
+          <ion-list>
+            <ion-item>
+              <ion-label>Plan</ion-label>
+              <ion-select [(ngModel)]="selectedPlan" (ionChange)="planSelectedEventOption()">
+                <ion-option *ngFor="let plan of plans" [value]="plan.codigo">{{plan.nombre}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+
+        <ion-card>
+          <ion-searchbar placeholder="Búsqueda de asignaturas" (ionInput)="filterItems($event)"
+                         *ngIf="subjects !== null"></ion-searchbar>
+          <ion-scroll style="height: 300px" *ngIf="subjects !== null" scrollY="true">
+            <ion-list>
+              <ion-item *ngFor="let subject of subjects">
+                <ion-label>[{{ subject.codigo }}] {{ subject.nombre }}</ion-label>
+                <ion-checkbox (ionChange)="addSelectedSubject(subject, this.selectedPlan)">
+
+                </ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-card>
+      </ion-col>
+
+      <!-- Asignaturas seleccionadas -->
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6>
+        <ion-title>Asignaturas seleccionadas</ion-title>
+
+        <ion-card *ngIf="selectedSubjects.length === 0" style="height: 200px" text-center>
+          <ion-row style="height: 100%">
+            <ion-col align-self-center>
+              <ion-icon class="subjecticon" name="bookmarks" color="blue-grey"></ion-icon>
+              <span>
+                <ion-icon class="alerticon" name="alert" color="blue-grey"></ion-icon>
+              </span>
+              <h2>No se ha seleccionado ninguna asignatura.</h2>
+              <p>Utilice el buscador de asignaturas.</p>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-list>
+            <ion-item *ngFor="let subject of selectedSubjects">
+              <ion-label>[{{ subject.subjectId }}] ({{subject.semester}}) {{ subject.subjectName }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+        <ion-row>
+          <ion-col text-center>
+            <button ion-button type="submit" text-right color="create" icon-right (click)="sendSubjects()"
+                    [disabled]="selectedSubjects.length === 0">
+              Siguiente
+              <ion-icon name="send"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+

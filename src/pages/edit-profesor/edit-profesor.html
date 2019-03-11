@@ -1,0 +1,129 @@
+<!--
+  Generated template for the EditProfesorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar no-border-top color="white">
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title color="black">Editar Profesor</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="main-area">
+  <ion-grid fixed>
+    <ion-row nowrap>
+      <ion-col col-lg-6 offset-lg-3>
+        <ion-card class="wearable-card">
+          <form [formGroup]="teacherForm" (ngSubmit)="modifyTeacher()">
+
+            <ion-item style="padding-left: 16px;color: #616161;" >
+              <p style="text-transform: capitalize;">ID: <span>{{teacher.id}}</span></p>
+            </ion-item>
+
+            <ion-card-header>
+              <ion-card-title ion-text color="blue-grey-darken-4">Editar profesor</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-item>
+                <ion-label floating>Nombre*</ion-label>
+                <ion-input type="text" formControlName="name"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.name" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.name">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+
+              <ion-item>
+                <ion-label floating>Apellidos*</ion-label>
+                <ion-input type="text" formControlName="surname"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.surname" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.surname">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-label floating>Email*</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.email" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.email">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-label floating>Teléfono</ion-label>
+                <ion-input type="tel" formControlName="phoneNumber"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.phoneNumber" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.phoneNumber">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-label floating>Despacho</ion-label>
+                <ion-input type="text" formControlName="room"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.room" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.room">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-label>Usuario activado</ion-label>
+                <ion-checkbox formControlName="enabled"></ion-checkbox>
+              </ion-item>
+              <div *ngIf="formErrors.enabled" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.enabled">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+
+
+            </ion-card-content>
+
+            <ion-row style="padding: 1rem;">
+              <ion-col text-left>
+                <button ion-button type="button" text-left color="danger"
+                        icon-right (click)="presentDeleteTeacherModal()">
+                  Eliminar
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+              </ion-col>
+
+              <ion-col text-right>
+                <button ion-button type="submit" text-right color="create"
+                        icon-right>
+                  Guardar
+                  <ion-icon name="send"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+
+          </form>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

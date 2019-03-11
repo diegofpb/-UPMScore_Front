@@ -1,0 +1,110 @@
+<!--
+  Generated template for the AddProfesoresToAsignaturaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar no-border-top color="white">
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title color="Black">Configuración de {{subjectForm.value.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="main-area">
+  <ion-grid>
+    <ion-row>
+
+      <!-- Zona izquierda -->
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6>
+        <!-- Profesores sugeridos -->
+        <ion-title>Profesores sugeridos</ion-title>
+        <ion-card>
+          <ion-scroll style="height: 200px" scrollY="true">
+            <ion-list>
+              <ion-item *ngFor="let teacher of teachersSuggested">
+                <ion-label>{{ teacher.name }} {{ teacher.surname }} ({{ teacher.email }})</ion-label>
+                <ion-checkbox (ionChange)="addSelectedTeacher(teacher)"></ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-card>
+        <!-- Buscador de profesores-->
+        <ion-row>
+          <ion-col col-12>
+            <ion-title>Profesores en el sistema</ion-title>
+          </ion-col>
+          <ion-col col-8 col-sm-8 col-md-8 col-lg-8>
+            <ion-searchbar placeholder="Búsqueda de profesores" (ionInput)="filterItems($event)"
+                           *ngIf="allTeachersInSystem !== null"></ion-searchbar>
+          </ion-col>
+
+          <ion-col col-4 col-sm-4 col-md-4 col-lg-4 text-center align-self-center>
+            <button ion-button text-right color="create" icon-right (click)="presentCreateTeacherModal()">
+              Nuevo
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-col>
+
+          <ion-card>
+            <ion-list>
+              <ion-item *ngFor="let teacher of allTeachersInSystem">
+                <ion-label>{{ teacher.name }} {{ teacher.surname }} ({{ teacher.email }})</ion-label>
+                <ion-checkbox (ionChange)="addSelectedTeacher(teacher)"></ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-card>
+        </ion-row>
+      </ion-col>
+
+      <!-- Zona derecha -->
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6>
+        <!-- Profesores seleccionados -->
+        <ion-row>
+          <ion-title>Profesores seleccionados</ion-title>
+
+          <ion-card *ngIf="teachersSelected.length === 0" style="height: 200px" text-center>
+            <ion-row style="height: 100%">
+              <ion-col align-self-center>
+                <ion-icon class="subjecticon" name="briefcase" color="blue-grey"></ion-icon>
+                <span>
+                <ion-icon class="alerticon" name="alert" color="blue-grey"></ion-icon>
+              </span>
+                <h2>No se ha seleccionado ningún profesor.</h2>
+                <p>Utilice el buscador de profesores.</p>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+
+          <ion-list style="width: 100%;">
+            <ion-card>
+              <ion-list>
+                <ion-item *ngFor="let teacher of teachersSelected">
+                  <ion-label>{{ teacher.name }} {{ teacher.surname }} ({{ teacher.email }})</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-card>
+          </ion-list>
+        </ion-row>
+
+        <ion-row text-center>
+          <ion-col>
+            <button ion-button text-right color="create" icon-right (click)="sendTeachers(teachersSelected)"
+                    [disabled]="teachersSelected.length === 0">
+              Continuar
+              <ion-icon name="send"></ion-icon>
+            </button>
+          </ion-col>
+
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

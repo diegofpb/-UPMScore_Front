@@ -1,0 +1,94 @@
+<!--
+  Generated template for the AddAsignatura page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar no-border-top color="white">
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title color="black">Nueva asignatura</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="main-area">
+  <ion-grid fixed>
+    <ion-row nowrap>
+      <ion-col col-lg-6 offset-lg-3>
+        <ion-card class="wearable-card">
+          <form [formGroup]="subjectForm" (ngSubmit)="createSubject()">
+            <ion-card-header>
+              <ion-card-title ion-text color="blue-grey-darken-4">Datos de la asignatura</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+
+              <ion-item>
+                <ion-label floating>Nombre*</ion-label>
+                <ion-input type="text" formControlName="name" autofocus></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.name" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.name">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+
+              <ion-item>
+                <ion-label floating>Curso*</ion-label>
+                <ion-input type="text" formControlName="course"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.course" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.course">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-label floating>Semestre*</ion-label>
+                <ion-input type="text" formControlName="semester"></ion-input>
+              </ion-item>
+              <div *ngIf="formErrors.semester" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.semester">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-label floating>Año académico*</ion-label>
+                <ion-input  formControlName="year" class="hotfix" ></ion-input>
+                <ion-datetime formControlName="year" displayFormat="YYYY" pickerFormat="YYYY" min="2016"></ion-datetime>
+              </ion-item>
+              <div *ngIf="formErrors.year" style="padding-left: 16px;">
+                <div *ngFor="let errors of formErrors.year">
+                  <p ion-text color="danger">{{ errors }}
+                  <p>
+                </div>
+              </div>
+
+            </ion-card-content>
+
+            <ion-row>
+              <ion-col text-center>
+                <button ion-button type="submit" text-right color="create"
+                        icon-right>
+                  Siguiente
+                  <ion-icon name="send"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+
+          </form>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

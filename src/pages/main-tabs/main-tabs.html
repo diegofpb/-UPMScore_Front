@@ -1,0 +1,4 @@
+<ion-tabs tabsPlacement="top" [selectedIndex]="mySelectedIndex" name="conference" color="white" (ionChange)="refresh()">
+    <ion-tab [root]="asignaturasRoot" tabTitle="Asignaturas" tabIcon="bookmarks" [tabBadge]="asignaturasNumber"></ion-tab>
+    <ion-tab [root]="profesoresRoot" tabTitle="Profesores" tabIcon="briefcase" [tabBadge]="profesoresNumber"></ion-tab>
+</ion-tabs>
