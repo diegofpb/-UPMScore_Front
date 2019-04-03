@@ -16,6 +16,10 @@ export class ApiProvider {
               public constants: ConstantsProvider) {
   }
 
+  getURL(url: string): Observable<any> {
+    return this.client.get(url);
+  }
+
   getSchools(): Observable<any> {
     return this.client.get(this.constants.HOST + this.constants.SCHOOLS);
   }
@@ -73,6 +77,10 @@ export class ApiProvider {
     return this.client.get(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId + this.constants.EVALUATIONS)
   }
 
+  getEvaluationsFromSubjectProjection(subjectId: any): Observable<any> {
+    return this.client.get(this.constants.HOST + this.constants.EVALUATIONS + "/search/bySubject?subject_id=" + subjectId)
+  }
+
   getAssingmentsFromEvaluation(evaluationId: any): Observable<any> {
     return this.client.get(this.constants.HOST + this.constants.EVALUATIONS + "/" + evaluationId + this.constants.ASSINGMENTS)
   }
@@ -102,4 +110,18 @@ export class ApiProvider {
       evaluation)
   }
 
+  deleteEvaluationFromSubject(id: any) {
+    return this.client.delete(this.constants.HOST + this.constants.EVALUATIONS
+      + "/" + id)
+  }
+
+  getTeachersFromSubject(subjectId: any): Observable<any>  {
+    return this.client.get(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId + this.constants.TEACHERS)
+  }
+
+
+  getUPMSubjectsFromSubject(subjectId: any): Observable<any>  {
+    return this.client.get(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId + this.constants.UPM_SUBJECTS)
+
+  }
 }

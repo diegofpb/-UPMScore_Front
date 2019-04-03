@@ -32,6 +32,7 @@ export class AddEvaluationsToAsignaturaPage {
   evaluations: Array<any> = [];
   assingments: Array<any> = [];
   selectedEvaluation: any = null;
+  selectedEvaluationSum: number = null;
   subjectId: any;
 
   constructor(public navCtrl: NavController,
@@ -71,7 +72,7 @@ export class AddEvaluationsToAsignaturaPage {
   }
 
   getEvaluationsOfSubject(subjectId: String) {
-    this.api.getEvaluationsFromSubject(subjectId).subscribe((value) => {
+    this.api.getEvaluationsFromSubjectProjection(subjectId).subscribe((value) => {
       console.log(value);
       this.evaluations = value._embedded.evaluations;
     });
@@ -82,11 +83,15 @@ export class AddEvaluationsToAsignaturaPage {
     this.api.getAssingmentsFromEvaluation(evaluation.id).subscribe((value) => {
       console.log(value);
       this.assingments = value._embedded.assingments;
+      this.selectedEvaluationSum = 0;
+      for (let assingment of this.assingments) {
+        this.selectedEvaluationSum = this.selectedEvaluationSum + parseInt(assingment.weight);
+      }
+
     });
   }
 
   deleteEvaluationOfSubject(evaluation: any){
-    //TODO ELIMINAR EVALUACION DE UNA ASIGNATURA.
     const confirm = this.alertCtrl.create({
       title: '¿Estás seguro que deseas eliminarlo?',
       message: 'Estás a punto de borrar la evaluacion ' + evaluation.name +
@@ -101,6 +106,11 @@ export class AddEvaluationsToAsignaturaPage {
         {
           text: 'Sí, eliminar',
           handler: () => {
+            this.api.deleteEvaluationFromSubject(evaluation.id).subscribe((value) => {
+              console.log(value);
+              this.selectedEvaluation = null;
+              this.getEvaluationsOfSubject(this.subjectId);
+            });
             console.log('Agree clicked');
           }
         }
@@ -141,10 +151,6 @@ export class AddEvaluationsToAsignaturaPage {
 
   }
 
-  editFormula(evaluation: any) {
-    
-  }
-
   createAssingmentForEvaluation(selectedEvaluation: any) {
     const createModalOptions: ModalOptions = {
       enableBackdropDismiss : true
@@ -156,6 +162,8 @@ export class AddEvaluationsToAsignaturaPage {
     createModal.present();
 
     createModal.onDidDismiss((assingment) => {
+      this.getEvaluationsOfSubject(this.subjectId);
+      this.getAssingmentsOfEvaluation(this.selectedEvaluation);
       console.log(assingment);
     })
   }

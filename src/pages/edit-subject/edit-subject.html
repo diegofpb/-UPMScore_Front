@@ -15,6 +15,150 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="main-area">
+  <ion-card>
+    <ion-segment [(ngModel)]="appType">
+      <ion-segment-button value="Info">
+        Info
+      </ion-segment-button>
+      <ion-segment-button value="Asignaturas">
+        Asignaturas
+      </ion-segment-button>
+      <ion-segment-button value="Profesores">
+        Profesores
+      </ion-segment-button>
+    </ion-segment>
+  </ion-card>
+
+
+  <ion-card *ngIf="appType === 'Info'">
+
+    <ion-item>
+      <ion-row>
+        <ion-col col-12 align-self-center text-left>
+          <h1>Información</h1>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+    <form [formGroup]="subjectForm" (ngSubmit)="updateSubject()">
+
+      <ion-item>
+        <ion-label floating>Nombre*</ion-label>
+        <ion-input type="text" formControlName="name" autofocus></ion-input>
+      </ion-item>
+      <div *ngIf="formErrors.name" style="padding-left: 16px;">
+        <div *ngFor="let errors of formErrors.name">
+          <p ion-text color="danger">{{ errors }}
+          <p>
+        </div>
+      </div>
+
+      <ion-item>
+        <ion-label floating>Curso*</ion-label>
+        <ion-input type="text" formControlName="course"></ion-input>
+      </ion-item>
+      <div *ngIf="formErrors.course" style="padding-left: 16px;">
+        <div *ngFor="let errors of formErrors.course">
+          <p ion-text color="danger">{{ errors }}
+          <p>
+        </div>
+      </div>
+
+      <ion-item>
+        <ion-label floating>Semestre*</ion-label>
+        <ion-input type="text" formControlName="semester"></ion-input>
+      </ion-item>
+      <div *ngIf="formErrors.semester" style="padding-left: 16px;">
+        <div *ngFor="let errors of formErrors.semester">
+          <p ion-text color="danger">{{ errors }}
+          <p>
+        </div>
+      </div>
+
+      <ion-item>
+        <ion-label floating>Año académico*</ion-label>
+        <ion-input  formControlName="year" class="hotfix" ></ion-input>
+        <ion-datetime formControlName="year" displayFormat="YYYY" pickerFormat="YYYY" min="2016"></ion-datetime>
+      </ion-item>
+      <div *ngIf="formErrors.year" style="padding-left: 16px;">
+        <div *ngFor="let errors of formErrors.year">
+          <p ion-text color="danger">{{ errors }}
+          <p>
+        </div>
+      </div>
+
+      <ion-row>
+        <ion-col text-center>
+          <button ion-button type="submit" text-right color="create"
+                  icon-right>
+            Guardar
+            <ion-icon name="send"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+
+    </form>
+
+  </ion-card>
+
+  <ion-card *ngIf="appType === 'Asignaturas'">
+    <ion-item>
+      <ion-row>
+        <ion-col col-7 align-self-center text-left>
+          <h1>Asignaturas asociadas</h1>
+        </ion-col>
+        <ion-col col-5 align-self-center text-right>
+          <button ion-button outline >Asociar nueva</button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item *ngFor="let subject of upmSubjects">
+      <ion-row>
+        <ion-col col-8>
+          <h1>{{ subject.name }}</h1>
+          <p>Semestre: {{subject.id.semester}}</p>
+          <p>Año: {{subject.id.year}}</p>
+          <p>UPM_ID: {{subject.id.subjectId}}</p>
+        </ion-col>
+        <ion-col col-4 align-self-center text-right>
+          <button ion-button outline icon-only color="danger" (click)="deleteUPMSubjectFromSubject(subject)"
+                  arrow tooltip="Eliminar" positionV="top">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="appType === 'Profesores'">
+
+    <ion-item>
+      <ion-row>
+        <ion-col col-7 align-self-center text-left>
+          <h1>Profesores asociados</h1>
+        </ion-col>
+        <ion-col col-5 align-self-center text-right>
+          <button ion-button outline >Asociar nuevo</button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item *ngFor="let profesor of teachers">
+        <ion-row>
+          <ion-col col-8>
+            <h2>{{ profesor.name }} {{ profesor.surname }}</h2>
+            <h3>{{ profesor.email }}</h3>
+            <h3>({{ profesor.room }})</h3>
+          </ion-col>
+          <ion-col col-4 align-self-center text-right>
+            <button ion-button outline icon-only color="danger" (click)="deleteTeacherFromSubject(profesor.id)"
+                    arrow tooltip="Eliminar" positionV="top">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+  </ion-card>
+
 
 </ion-content>

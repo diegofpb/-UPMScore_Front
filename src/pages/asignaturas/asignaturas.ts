@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {AddAsignaturaPage} from "../add-asignatura/add-asignatura";
 import {PopoverMenuPage} from "../popover-menu/popover-menu";
@@ -38,7 +38,7 @@ export class AsignaturasPage {
   }
 
 
-  getSubjetcs(){
+  getSubjetcs() {
     this.api.getSubjects().subscribe((value) => {
       this.asignaturasShow = value._embedded.subjects;
       console.log(value);
@@ -64,14 +64,14 @@ export class AsignaturasPage {
     });
   }
 
-  addSubject(){
+  addSubject() {
     this.navCtrl.canGoBack();
     this.navCtrl.push(AddAsignaturaPage)
   }
 
-  editSubject(asignatura:any){
+  editSubject(asignatura: any) {
     this.navCtrl.canGoBack();
-    this.navCtrl.push(AddEvaluationsToAsignaturaPage,{asignatura: asignatura, subjectId:asignatura.id})
+    this.navCtrl.push(EditSubjectPage, {asignatura: asignatura, subjectId: asignatura.id})
   }
 
 }

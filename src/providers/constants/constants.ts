@@ -29,5 +29,8 @@ export class ConstantsProvider {
 
   public STUDENTS = "/students";
 
+  public UPM_SUBJECTS = "/upmSubjects";
+
+
 
 }
