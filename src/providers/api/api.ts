@@ -124,4 +124,28 @@ export class ApiProvider {
     return this.client.get(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId + this.constants.UPM_SUBJECTS)
 
   }
+
+  deleteTeacherFromSubject(teacherId: any, subjectId: any) {
+    return this.client.delete(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId +
+      this.constants.TEACHERS + "/" + teacherId)
+  }
+
+  deleteUpmSubjectFromSubject(upmSubject: any, subjectId: any) {
+    return this.client.delete(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId +
+      this.constants.UPM_SUBJECTS + "/" + upmSubject)
+  }
+
+  deleteSubject(subjectId: any) {
+    return this.client.delete(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId)
+  }
+
+  postUPMSubjectToSubject(subject:any): Observable<any> {
+    return this.client.postJson(this.constants.HOST + this.constants.UPM_SUBJECTS_2,
+      subject)
+  }
+
+  postBindUPMSubjectToSubject(subjectId: any, subject:any): Observable<any> {
+    return this.client.putJson(this.constants.HOST + this.constants.SUBJECTS + "/" + subjectId + this.constants.UPM_SUBJECTS,
+      subject)
+  }
 }

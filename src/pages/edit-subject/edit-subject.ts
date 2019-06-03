@@ -1,8 +1,19 @@
-import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {
+  AlertController,
+  FabContainer,
+  IonicPage,
+  ModalController,
+  ModalOptions,
+  NavController,
+  NavParams,
+  PopoverController, ToastController
+} from 'ionic-angular';
 import {ApiProvider} from "../../providers/api/api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PopoverMenuPage} from "../popover-menu/popover-menu";
+import {EditStudentsModalPage} from "../edit-students-modal/edit-students-modal";
+import {AddUpmAsignaturaModalPage} from "../add-upm-asignatura-modal/add-upm-asignatura-modal";
 
 /**
  * Generated class for the EditSubjectPage page.
@@ -54,7 +65,10 @@ export class EditSubjectPage {
               public navParams: NavParams,
               public api: ApiProvider,
               public formBuilder: FormBuilder,
-              public popoverCtrl: PopoverController
+              public popoverCtrl: PopoverController,
+              public modalCtrl: ModalController,
+              public alertCtrl: AlertController,
+              private toastCtrl: ToastController
   ) {
 
     this.subject = navParams.get('asignatura');
@@ -63,8 +77,8 @@ export class EditSubjectPage {
     // Setup the form
     this.subjectForm = this.formBuilder.group({
       name: ['', Validators.required],
-      course: ['',Validators.required],
-      semester: ['',Validators.required],
+      course: ['', Validators.required],
+      semester: ['', Validators.required],
       year: ['', Validators.required],
       upmSubjects: [''],
 
@@ -97,7 +111,6 @@ export class EditSubjectPage {
     this.subjectForm.valueChanges.subscribe(() => this.onValueChanged());
 
 
-
   }
 
   ionViewDidLoad() {
@@ -125,7 +138,7 @@ export class EditSubjectPage {
       this.formErrors[field] = [];
       this.subjectForm[field] = '';
       const control = form.get(field);
-      if (control && (control.dirty || !checkDirty) &&!control.valid) {
+      if (control && (control.dirty || !checkDirty) && !control.valid) {
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
           this.formErrors[field].push(messages[key]);
@@ -135,8 +148,7 @@ export class EditSubjectPage {
   }
 
 
-
-  saveSubject(){
+  saveSubject() {
 
   }
 
@@ -146,10 +158,95 @@ export class EditSubjectPage {
   }
 
   deleteTeacherFromSubject(id: any) {
-    
+    this.api.deleteTeacherFromSubject(id, this.subject.id).subscribe((value) => {
+      console.log(value);
+      this.api.getTeachersFromSubject(this.subject.id).subscribe((value) => {
+        this.teachers = value._embedded.teachers;
+        console.log(this.teachers);
+      });
+    });
+
   }
 
-  deleteUPMSubjectFromSubject(subject: any) {
-    
+  deleteUPMSubjectFromSubject(upmSubject: any) {
+    //UPMSubjectPK(subjectId=105000012,%20semester=2S,%20year=2018-19)
+    this.api.deleteUpmSubjectFromSubject("UPMSubjectPK(subjectId=" + upmSubject.subjectId + ",%20semester=" + upmSubject.semester + ",%20year=" + upmSubject.year + ")", this.subject.id).subscribe((value) => {
+      console.log(value);
+      this.api.getUPMSubjectsFromSubject(this.subject.id).subscribe((value) => {
+        this.upmSubjects = value._embedded.uPMSubjects;
+        console.log(this.upmSubjects);
+      });
+    });
+
+
+  }
+
+
+  showStudents(subject: FabContainer) {
+
+    const createModalOptions: ModalOptions = {
+      enableBackdropDismiss: true
+    };
+
+    const createModal =
+      this.modalCtrl.create(EditStudentsModalPage, {subject: subject}, createModalOptions);
+
+    createModal.present();
+  }
+
+
+  presentDeleteSubjectModal() {
+    const confirm = this.alertCtrl.create({
+      title: '¿Estás seguro que deseas eliminarlo?',
+      message: 'Estás a punto de borrar ' + this.subject.name +
+        ' del sistema. Esta acción no se puede deshacer.\n ¿Estás seguro que deseas hacerlo?',
+      buttons: [
+        {
+          text: 'No, cancelar',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Sí, eliminar',
+          handler: () => {
+            console.log('Agree clicked');
+            this.api.deleteSubject(this.subject.id).subscribe(() => {
+              this.navCtrl.pop();
+            }, (error) => {
+              let toast = this.toastCtrl.create({
+                duration: 8000,
+                position: 'top',
+                cssClass: "toast-class"
+              });
+              if (error.status === 500) {
+                toast.setMessage("Error en el servidor (500) ⚠️")
+              }
+              console.log(error);
+              toast.present();
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+
+  addUPMSubjectToSubject() {
+    const createModalOptions: ModalOptions = {
+      enableBackdropDismiss: true
+    };
+
+    const createModal =
+      this.modalCtrl.create(AddUpmAsignaturaModalPage, {subject: this.subject}, createModalOptions);
+
+    createModal.onDidDismiss(data => {
+      this.api.getUPMSubjectsFromSubject(this.subject.id).subscribe((value) => {
+        this.upmSubjects = value._embedded.uPMSubjects;
+        console.log(this.upmSubjects);
+      });
+    });
+    createModal.present();
   }
 }

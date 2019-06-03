@@ -89,6 +89,15 @@
       </div>
 
       <ion-row>
+
+          <ion-col text-left>
+            <button ion-button type="button" text-left color="danger"
+                    icon-right (click)="presentDeleteSubjectModal()">
+              Eliminar
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-col>
+
         <ion-col text-center>
           <button ion-button type="submit" text-right color="create"
                   icon-right>
@@ -109,7 +118,7 @@
           <h1>Asignaturas asociadas</h1>
         </ion-col>
         <ion-col col-5 align-self-center text-right>
-          <button ion-button outline >Asociar nueva</button>
+          <button ion-button outline (click)="addUPMSubjectToSubject()">Asociar nueva</button>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -122,7 +131,7 @@
           <p>UPM_ID: {{subject.id.subjectId}}</p>
         </ion-col>
         <ion-col col-4 align-self-center text-right>
-          <button ion-button outline icon-only color="danger" (click)="deleteUPMSubjectFromSubject(subject)"
+          <button ion-button outline icon-only color="danger" (click)="deleteUPMSubjectFromSubject(subject.id)"
                   arrow tooltip="Eliminar" positionV="top">
             <ion-icon name="trash"></ion-icon>
           </button>

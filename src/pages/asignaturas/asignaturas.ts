@@ -4,7 +4,6 @@ import {AddAsignaturaPage} from "../add-asignatura/add-asignatura";
 import {PopoverMenuPage} from "../popover-menu/popover-menu";
 import {ApiProvider} from "../../providers/api/api";
 import {EditSubjectPage} from "../edit-subject/edit-subject";
-import {AddEvaluationsToAsignaturaPage} from "../add-evaluations-to-asignatura/add-evaluations-to-asignatura";
 
 /**
  * Generated class for the AsignaturasPage page.

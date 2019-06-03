@@ -4,8 +4,8 @@ import {FormGroup} from "@angular/forms";
 import {HttpClientProvider} from "../../providers/client-http/clientHttp";
 import {PopoverMenuPage} from "../popover-menu/popover-menu";
 import {ApiProvider} from "../../providers/api/api";
-import {AddEvaluationsToAsignaturaPage} from "../add-evaluations-to-asignatura/add-evaluations-to-asignatura";
 import {CreateTeacherPage} from "../create-teacher/create-teacher";
+import {AsignaturasPage} from "../asignaturas/asignaturas";
 
 /**
  * Generated class for the AddProfesoresToAsignaturaPage page.
@@ -113,7 +113,7 @@ export class AddProfesoresToAsignaturaPage {
       console.log(this.teachersSelected);
       this.api.postTeachersForSubject(teachersSelected, this.subjectId).subscribe((value) => {
         console.log(value);
-        this.navCtrl.push(AddEvaluationsToAsignaturaPage, {
+        this.navCtrl.push(AsignaturasPage, {
           subjectForm: this.subjectForm,
           subjectId: this.subjectId
         });

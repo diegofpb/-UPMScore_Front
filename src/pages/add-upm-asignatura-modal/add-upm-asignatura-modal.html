@@ -1,0 +1,65 @@
+<!--
+  Generated template for the AddUpmAsignaturaModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Añadir Asignatura</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm-12 col-md-12 col-lg-12>
+        <ion-card>
+          <ion-list>
+            <ion-item>
+              <ion-label>Centro</ion-label>
+              <ion-select [(ngModel)]="selectedSchool" (ionChange)="schoolSelectedEventOption()"
+                          [disabled]="schools.length === 0">
+                <ion-option *ngFor="let school of schools" [value]="school.codigo">{{school.nombre}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+
+        <ion-card *ngIf="plans.length > 0">
+          <ion-list>
+            <ion-item>
+              <ion-label>Plan</ion-label>
+              <ion-select [(ngModel)]="selectedPlan" (ionChange)="planSelectedEventOption()">
+                <ion-option *ngFor="let plan of plans" [value]="plan.codigo">{{plan.nombre}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+
+        <ion-card>
+          <ion-searchbar placeholder="Búsqueda de asignaturas" (ionInput)="filterItems($event)"
+                         *ngIf="subjects !== null"></ion-searchbar>
+          <ion-scroll style="height: 220px" *ngIf="subjects !== null" scrollY="true">
+            <ion-list>
+              <ion-item *ngFor="let subject of subjects">
+                <ion-label>[{{ subject.codigo }}] {{ subject.nombre }}</ion-label>
+                <ion-checkbox (ionChange)="addSelectedSubject(subject, this.selectedPlan)">
+
+                </ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

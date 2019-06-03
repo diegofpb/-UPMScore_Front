@@ -24,12 +24,13 @@ import {PopoverMenuPage} from "../pages/popover-menu/popover-menu";
 import {AddUpmsubjectsToAsignaturaPage} from "../pages/add-upmsubjects-to-asignatura/add-upmsubjects-to-asignatura";
 import {EditSubjectPage} from "../pages/edit-subject/edit-subject";
 import {CreateTeacherPage} from "../pages/create-teacher/create-teacher";
-import {AddEvaluationsToAsignaturaPage} from "../pages/add-evaluations-to-asignatura/add-evaluations-to-asignatura";
 import {CreateEvaluationModalPage} from "../pages/create-evaluation-modal/create-evaluation-modal";
 import {EditProfesorPage} from "../pages/edit-profesor/edit-profesor";
 import {TooltipController, TooltipsModule} from "ionic-tooltips";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CreateAssingmentModalPage} from "../pages/create-assingment-modal/create-assingment-modal";
+import {EditStudentsModalPage} from "../pages/edit-students-modal/edit-students-modal";
+import {AddUpmAsignaturaModalPage} from "../pages/add-upm-asignatura-modal/add-upm-asignatura-modal";
 
 @NgModule({
   declarations: [
@@ -44,10 +45,11 @@ import {CreateAssingmentModalPage} from "../pages/create-assingment-modal/create
     AddUpmsubjectsToAsignaturaPage,
     EditSubjectPage,
     CreateTeacherPage,
-    AddEvaluationsToAsignaturaPage,
     CreateEvaluationModalPage,
     EditProfesorPage,
-    CreateAssingmentModalPage
+    CreateAssingmentModalPage,
+    EditStudentsModalPage,
+    AddUpmAsignaturaModalPage
   ],
   imports: [
     BrowserModule,
@@ -79,10 +81,12 @@ import {CreateAssingmentModalPage} from "../pages/create-assingment-modal/create
     AddUpmsubjectsToAsignaturaPage,
     EditSubjectPage,
     CreateTeacherPage,
-    AddEvaluationsToAsignaturaPage,
     CreateEvaluationModalPage,
     EditProfesorPage,
-    CreateAssingmentModalPage
+    CreateAssingmentModalPage,
+    EditStudentsModalPage,
+    AddUpmAsignaturaModalPage
+
   ],
   providers: [
     StatusBar,

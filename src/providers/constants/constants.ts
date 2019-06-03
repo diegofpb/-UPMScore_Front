@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 /*
   Generated class for the ConstantsProvider provider.
@@ -31,6 +31,7 @@ export class ConstantsProvider {
 
   public UPM_SUBJECTS = "/upmSubjects";
 
+  public UPM_SUBJECTS_2 = "/uPMSubjects"
 
 
 }
